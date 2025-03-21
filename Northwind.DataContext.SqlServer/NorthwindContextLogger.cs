@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Northwind.DataContext.SqlServer
 {
+    /// <summary>
+    /// Logger for NorthwindContext, ska logga till fil
+    /// </summary>
     internal class NorthwindContextLogger
     {
     }
