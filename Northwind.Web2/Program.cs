@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 builder.Services.AddNorthwindContext();
+builder.Services.AddRequestDecompression(); //Lägger till compression tjänster (Accept-Encoding i DevTools)
 
 var app = builder.Build();
 #endregion
@@ -16,7 +17,32 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.Use(async (HttpContext context, Func<Task> next) => 
+{
+    RouteEndpoint? rep = context.GetEndpoint() as RouteEndpoint;
+
+    if (rep is not null) 
+    {
+        WriteLine($"Endpoint name: {rep.DisplayName}");
+        WriteLine($"Enpoint route pattern: {rep.RoutePattern.RawText}");
+    }
+
+    if (context.Request.Path == "/bonjour")
+    {
+        // ifall att vi har ett match på URL path, detta avbryter pipeline,
+        // delegate skickar inte anröp till nästa middleware
+        await context.Response.WriteAsync("Bonjour Monde!");
+        return;
+    }
+    // vi kan modifera request och response här innan anropet går vidare
+    await next();
+
+    //vi kan modifera response här efter att vi har kalla next delegate
+    //och innan den skickas till klienten
+});
+
 app.UseHttpsRedirection();
+app.UseRequestDecompression(); //anrop till att använda decompression middleware i pipeline
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
@@ -26,5 +52,6 @@ app.MapRazorPages();
 app.MapGet("/hello", () => $"Environment is {app.Environment.EnvironmentName}");
 #endregion
 
+//kör web servern
 app.Run();
 WriteLine("Detta exekveras efter att web server har stoppats!");
