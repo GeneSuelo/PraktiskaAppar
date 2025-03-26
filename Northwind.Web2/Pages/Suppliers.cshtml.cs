@@ -1,19 +1,23 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages; //för PageModel
+using Northwind.EntityModels; 
 
 namespace Northwind.Web.Pages
 {
     public class SuppliersModel : PageModel
     {
-        public IEnumerable<string>? Suppliers { get; set; }
+        private NorthwindDatabaseContext db;
+        public SuppliersModel(NorthwindDatabaseContext injectedContext) 
+        {
+            this.db = injectedContext;
+        }
+        public IEnumerable<Supplier>? Suppliers { get; set; }
         public void OnGet()
         {
             ViewData["Title"] = "Northwind App - Suppliers";
 
-            Suppliers = new[]
-            {
-                "Exotic Liquids", "Beta Limited", "Alfa Corp"
-            };
+            Suppliers = db.Suppliers.OrderBy(c => c.Country)
+                .ThenBy(c => c.CompanyName);
         }
     }
 }

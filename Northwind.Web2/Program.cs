@@ -1,7 +1,11 @@
+using Northwind.DataContext.SqlServer;
+using Northwind.EntityModels;
+
 #region Konfigurera web server host och tjänster
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
+builder.Services.AddNorthwindContext();
 
 var app = builder.Build();
 #endregion
