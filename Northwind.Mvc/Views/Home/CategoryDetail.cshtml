@@ -4,13 +4,6 @@
     ViewData["Title"] = "Category Details - " + Model.CategoryName;
 }
 
-@*<h2>@Model.CategoryName</h2>
-<img class="img-fluid" src="@Url.Content($"~/images/category{Model.CategoryId}.jpeg")" alt="@Model.CategoryName" />
-<p>@Model.Description</p>
-
-<a class="btn btn-primary" asp-controller="Home" asp-action="Index">Back to Home</a>*@
-
-
 <div class="container mt-4">
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb">
@@ -21,9 +14,9 @@
     </nav>
 
     <!-- Category Card -->
-    <div class="card shadow-lg">
-        <img class="card-img-top" src="@Url.Content($"~/images/category{Model.CategoryId}.jpeg")" alt="@Model.CategoryName">
-        <div class="card-body">
+    <div class="card category-card shadow-lg">
+        <img class="card-img-top category-img" src="@Url.Content($"~/images/category{Model.CategoryId}.jpeg")" alt="@Model.CategoryName">
+        <div class="card-body text-center">
             <h2 class="card-title">@Model.CategoryName</h2>
             <p class="card-text">@Model.Description</p>
             <span class="badge bg-primary">Category ID: @Model.CategoryId</span>
@@ -31,15 +24,15 @@
     </div>
 
     <!-- Related Products -->
-    <!--Gene: Lägg till responsiva layoutförbättringar.-->
-    <!--Gene: Inkludera ytterligare kategoriinformation, till exempel ett produktantal eller en utvald produkt.-->
+    <!--Lägg till responsiva layoutförbättringar.-->
+    <!--Inkludera ytterligare kategoriinformation, till exempel ett produktantal eller en utvald produkt.-->
     <h3 class="mt-4">Products in this Category (@Model.Products.Count())</h3>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row">
         @foreach (var product in Model.Products)
         {
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
+            <div class="col-md-4">
+                <div class="card product-card mb-3">
+                    <div class="card-body text-center">
                         <h5 class="card-title">@product.ProductName</h5>
                         <p class="card-text">
                             Price: <span class="text-success fw-bold">
@@ -47,7 +40,7 @@
                             </span>
                         </p>
                         <a asp-controller="Home" asp-action="ProductDetail" asp-route-id="@product.ProductId"
-                           class="btn btn-outline-primary w-100">View Product</a>
+                           class="btn btn-outline-primary btn-custom">View Product</a>
                     </div>
                 </div>
             </div>
@@ -55,7 +48,9 @@
     </div>
 
     <!-- Back to Home Button -->
-    <a class="btn btn-secondary mt-3" asp-controller="Home" asp-action="Index">Back to Home</a>
+    <div class="back-btn">
+        <a class="btn btn-secondary mt-3 btn-custom" asp-controller="Home" asp-action="Index">Back to Home</a>
+    </div>
 </div>
 
 
