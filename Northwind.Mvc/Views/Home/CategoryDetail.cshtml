@@ -31,21 +31,23 @@
     </div>
 
     <!-- Related Products -->
-    <h3 class="mt-4">Products in this Category</h3>
-    <div class="row">
+    <!--Gene: Lägg till responsiva layoutförbättringar.-->
+    <!--Gene: Inkludera ytterligare kategoriinformation, till exempel ett produktantal eller en utvald produkt.-->
+    <h3 class="mt-4">Products in this Category (@Model.Products.Count())</h3>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
         @foreach (var product in Model.Products)
         {
-            <div class="col-md-4">
-                <div class="card mb-3">
+            <div class="col">
+                <div class="card h-100 shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title">@product.ProductName</h5>
                         <p class="card-text">
                             Price: <span class="text-success fw-bold">
-                            @(product.UnitPrice?.ToString("C") ?? "N/A")
+                                @(product.UnitPrice?.ToString("C") ?? "N/A")
                             </span>
                         </p>
                         <a asp-controller="Home" asp-action="ProductDetail" asp-route-id="@product.ProductId"
-                           class="btn btn-outline-primary">View Product</a>
+                           class="btn btn-outline-primary w-100">View Product</a>
                     </div>
                 </div>
             </div>

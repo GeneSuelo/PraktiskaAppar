@@ -80,12 +80,22 @@ namespace Northwind.Mvc.Controllers
         //Gene: Lägg till denna metod för att hantera kategori-sidan
         public IActionResult CategoryDetail(int? id)
         {
+            //Gene: för att hämta relaterade produkter
             if (!id.HasValue)
             {
                 return BadRequest("You must pass a category ID in the route, for example, /Home/CategoryDetail/1");
             }
 
-            Category? category = db.Categories.SingleOrDefault(c => c.CategoryId == id);
+            var category = db.Categories
+                             .Where(c => c.CategoryId == id)
+                             .Select(c => new Category
+                             {
+                                 CategoryId = c.CategoryId,
+                                 CategoryName = c.CategoryName,
+                                 Description = c.Description,
+                                 Products = db.Products.Where(p => p.CategoryId == c.CategoryId).ToList()
+                             })
+                             .SingleOrDefault();
 
             if (category is null)
             {

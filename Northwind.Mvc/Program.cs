@@ -47,10 +47,10 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
-//Gene:Konfigurera routing, Lägg till följande route
+//Gene:Konfigurera routing, Lägg till följande route 
 app.MapControllerRoute(
     name: "category",
-    pattern: "category/{id}",
+    pattern: "category/{id:int}",
     defaults: new { controller = "Home", action = "CategoryDetail" }
 );
 
