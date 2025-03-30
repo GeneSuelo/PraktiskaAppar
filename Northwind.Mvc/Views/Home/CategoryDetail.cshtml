@@ -4,10 +4,57 @@
     ViewData["Title"] = "Category Details - " + Model.CategoryName;
 }
 
-<h2>@Model.CategoryName</h2>
+@*<h2>@Model.CategoryName</h2>
 <img class="img-fluid" src="@Url.Content($"~/images/category{Model.CategoryId}.jpeg")" alt="@Model.CategoryName" />
 <p>@Model.Description</p>
 
-<a class="btn btn-primary" asp-controller="Home" asp-action="Index">Back to Home</a>
+<a class="btn btn-primary" asp-controller="Home" asp-action="Index">Back to Home</a>*@
+
+
+<div class="container mt-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.CategoryName</li>
+        </ol>
+    </nav>
+
+    <!-- Category Card -->
+    <div class="card shadow-lg">
+        <img class="card-img-top" src="@Url.Content($"~/images/category{Model.CategoryId}.jpeg")" alt="@Model.CategoryName">
+        <div class="card-body">
+            <h2 class="card-title">@Model.CategoryName</h2>
+            <p class="card-text">@Model.Description</p>
+            <span class="badge bg-primary">Category ID: @Model.CategoryId</span>
+        </div>
+    </div>
+
+    <!-- Related Products -->
+    <h3 class="mt-4">Products in this Category</h3>
+    <div class="row">
+        @foreach (var product in Model.Products)
+        {
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.ProductName</h5>
+                        <p class="card-text">
+                            Price: <span class="text-success fw-bold">
+                            @(product.UnitPrice?.ToString("C") ?? "N/A")
+                            </span>
+                        </p>
+                        <a asp-controller="Home" asp-action="ProductDetail" asp-route-id="@product.ProductId"
+                           class="btn btn-outline-primary">View Product</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Back to Home Button -->
+    <a class="btn btn-secondary mt-3" asp-controller="Home" asp-action="Index">Back to Home</a>
+</div>
+
 
 
