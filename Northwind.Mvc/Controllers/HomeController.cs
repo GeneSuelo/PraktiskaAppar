@@ -76,5 +76,24 @@ namespace Northwind.Mvc.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        //Gene: Lägg till denna metod för att hantera kategori-sidan
+        public IActionResult CategoryDetail(int? id)
+        {
+            if (!id.HasValue)
+            {
+                return BadRequest("You must pass a category ID in the route, for example, /Home/CategoryDetail/1");
+            }
+
+            Category? category = db.Categories.SingleOrDefault(c => c.CategoryId == id);
+
+            if (category is null)
+            {
+                return NotFound($"Category ID {id} not found");
+            }
+
+            return View(category);
+        }
+
     }
 }

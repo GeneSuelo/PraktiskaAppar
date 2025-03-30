@@ -1,0 +1,13 @@
+﻿@model Northwind.EntityModels.Category
+
+@{
+    ViewData["Title"] = "Category Details - " + Model.CategoryName;
+}
+
+<h2>@Model.CategoryName</h2>
+<img class="img-fluid" src="@Url.Content($"~/images/category{Model.CategoryId}.jpeg")" alt="@Model.CategoryName" />
+<p>@Model.Description</p>
+
+<a class="btn btn-primary" asp-controller="Home" asp-action="Index">Back to Home</a>
+
+

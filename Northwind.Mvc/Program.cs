@@ -47,6 +47,15 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
+//Gene:Konfigurera routing, Lägg till följande route
+app.MapControllerRoute(
+    name: "category",
+    pattern: "category/{id}",
+    defaults: new { controller = "Home", action = "CategoryDetail" }
+);
+
+
+// Standardrutt
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
